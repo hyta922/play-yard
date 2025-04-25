@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+
+  redis:
+    image: "redis:latest"
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # backend:
+  #   build:
+  #     context: ../backend
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ../backend:/app
+  #   depends_on:
+  #     - redis
+  #   environment:
+  #     - REDIS_HOST=redis
+  #     - REDIS_PORT=6379
+
+volumes:
+  node_modules:
+  redis_data:
